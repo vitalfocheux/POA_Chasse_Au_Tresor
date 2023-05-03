@@ -49,27 +49,7 @@ public class Position implements Comparable<Position>{
 		this.col = col;
 	}
 	
-	/*public Position getNextPosition(int dir) {
-		switch(dir) {
-		case 1:
-			return new Position(this.getRow(), this.getCol()+1);
-		case 2:
-			return new Position(this.getRow()-1, this.getCol()+1);
-		case 3:
-			return new Position(this.getRow()-1, this.getCol());
-		case 4:
-			return new Position(this.getRow()-1, this.getCol()-1);
-		case 5:
-			return new Position(this.getRow(), this.getCol()-1);
-		case 6:
-			return new Position(this.getRow()+1, this.getCol()-1);
-		case 7:
-			return new Position(this.getRow()+1, this.getCol());
-		case 8:
-			return new Position(this.getRow()+1, this.getCol()+1);
-		}
-		return null;
-	}*/
+	
 
 	/**
 	 * 
