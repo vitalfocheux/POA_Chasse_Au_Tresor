@@ -16,7 +16,9 @@ public class Ladder extends Tool {
 
 	@Override
 	public void process(Character c) {
-		// TODO Auto-generated method stub
+		if(!c.haveAlreadyLadder()) {
+			c.takeLadder();
+		}
 		
 	}
 

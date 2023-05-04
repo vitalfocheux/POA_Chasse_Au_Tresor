@@ -16,8 +16,9 @@ public class Pickaxe extends Tool {
 
 	@Override
 	public void process(Character c) {
-		// TODO Auto-generated method stub
-
+		if(!c.haveAlreadyPickaxe()) {
+			c.takePickaxe();
+		}
 	}
 
 }
