@@ -22,7 +22,9 @@ public class Treasure extends Fixed {
 	@Override
 	public void process(Character c) {
 		// TODO Auto-generated method stub
-		
+		if(c instanceof Hunter) {
+			((Hunter) c).gotTreasure();
+		}
 	}
 
 	
