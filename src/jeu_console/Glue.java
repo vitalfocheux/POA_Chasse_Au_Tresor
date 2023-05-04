@@ -21,8 +21,7 @@ public class Glue extends Fixed {
 
 	@Override
 	public void process(Character c) {
-		// TODO Auto-generated method stub
-		
+		c.upRoundWait();		
 	}
 
 	
