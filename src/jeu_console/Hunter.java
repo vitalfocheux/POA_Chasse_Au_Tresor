@@ -8,9 +8,12 @@ package jeu_console;
  *
  */
 public class Hunter extends Character {
+	
+	private boolean treasure;
 
-	public Hunter(Position pos, String nom) {
-		super(pos, nom);
+	public Hunter(Position pos, String nom, char c) {
+		super(pos, nom, c);
+		treasure = false;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -18,13 +21,18 @@ public class Hunter extends Character {
 
 	@Override
 	public void process(Character c) {
-		// TODO Auto-generated method stub
-		
+		int dir = c.getDir();
+		do {
+			c.setDir( (int)(Math.random() * (7) + 1));
+		}while(c.getDir() == dir);
 	}
 	
-	@Override
-	public String toString() {
-		return "A";
+	public boolean haveTreasure() {
+		return treasure;
+	}
+	
+	public void gotTreasure() {
+		treasure = true;
 	}
 
 }
