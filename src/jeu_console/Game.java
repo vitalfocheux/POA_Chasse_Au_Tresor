@@ -96,10 +96,40 @@ public class Game {
 	public void play() {
 		System.out.println("Grille lors de l'initialisation du jeu :\n");
 		afficher();
-		do {
-			System.out.println("\nTour n°1 :\n");
+		for(;round < 4; ++round) {
+			for(Occupant o : occupants) {
+				if(o instanceof Hunter) {
+					Character c = (Character)o;
+					System.out.println(c+" "+c.getPos()+" "+c.getDir()+" rd : "+(round-1));
+					Position pos = c.getPos();
+					Position next = ((Hunter) o).getNextPosition(c.getDir());
+					Occupant pr = null;
+					if(!grille.isFree(next)) {
+						pr = grille.getOccupant(next, 0);
+					}
+					if(pr != null) {
+						System.out.println("process");
+						pr.process(c);
+					}
+					System.out.println(pos);
+					
+					
+					if(pr == null) {
+						int i = grille.getSizeListOccupant(pos);
+						grille.removeOccupant(pos, (i-1));
+						c.walk(next);
+						grille.addOccupant(next, o);
+					}
+					
+				}
+			}
+			System.out.println("\nTour n°"+round+" :\n");
+			afficher();
+		}
+		/*do {
+			System.out.println("\nTour n°"+round+" :\n");
 			win = true;
-		}while(!win);
+		}while(!win);*/
 	}
 	
 }
