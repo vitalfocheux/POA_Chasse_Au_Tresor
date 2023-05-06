@@ -65,6 +65,13 @@ public class Game {
 			occupants.add(new Glue(getFreeRandomPosition()));
 		}
 		grille = new Grille(occupants);
+		System.out.println("Grille lors de l'initialisation du jeu :\n");
+		afficher();
+		for(Occupant o : occupants) {
+			if(o instanceof Character) {
+				System.out.println(o+" "+o.getPos()+" "+((Character)(o)).getDir());
+			}
+		}
 	}
 	
 	public Position getFreeRandomPosition() {
@@ -94,13 +101,14 @@ public class Game {
 	}
 	
 	public void play() {
+		/*
 		System.out.println("Grille lors de l'initialisation du jeu :\n");
-		afficher();
+		afficher();*/
 		for(;round < 4; ++round) {
 			for(Occupant o : occupants) {
 				if(o instanceof Hunter) {
 					Character c = (Character)o;
-					System.out.println(c+" "+c.getPos()+" "+c.getDir()+" rd : "+(round-1));
+					//System.out.println(c+" "+c.getPos()+" "+c.getDir()+" rd : "+(round-1));
 					Position pos = c.getPos();
 					Position next = ((Hunter) o).getNextPosition(c.getDir());
 					Occupant pr = null;
@@ -108,10 +116,9 @@ public class Game {
 						pr = grille.getOccupant(next, 0);
 					}
 					if(pr != null) {
-						System.out.println("process");
+						//System.out.println("process");
 						pr.process(c);
 					}
-					System.out.println(pos);
 					
 					
 					if(pr == null) {
@@ -125,6 +132,11 @@ public class Game {
 			}
 			System.out.println("\nTour n°"+round+" :\n");
 			afficher();
+			for(Occupant o : occupants) {
+				if(o instanceof Character) {
+					System.out.println(o+" "+o.getPos()+" "+((Character)(o)).getDir());
+				}
+			}
 		}
 		/*do {
 			System.out.println("\nTour n°"+round+" :\n");

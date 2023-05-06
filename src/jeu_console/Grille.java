@@ -29,7 +29,7 @@ public class Grille {
 				if(!grille.containsKey(pos) || grille.get(pos).size() == 0) {
 					System.out.print(" ");
 				}else {
-					System.out.print(grille.get(pos).get(0));
+					System.out.print(grille.get(pos).get(grille.get(pos).size() - 1));
 				}
 			}
 			System.out.println();
@@ -45,7 +45,7 @@ public class Grille {
 	
 	public void removeOccupant(Position pos, int i) {
 		grille.get(pos).remove(i);
-		System.out.println("après remove "+grille.get(pos));
+		//System.out.println("après remove "+grille.get(pos));
 	}
 	
 	public void addOccupant(Position pos, Occupant o) {
@@ -56,15 +56,15 @@ public class Grille {
 	}
 	
 	public int getSizeListOccupant(Position pos){
-		System.out.println(grille.containsKey(pos));
+		//System.out.println(grille.containsKey(pos));
 		if(!grille.containsKey(pos)) {
 			List<Occupant> li = new ArrayList<Occupant>();
 			li.add(null);
-			System.out.println("li = "+li);
+			//System.out.println("li = "+li);
 			grille.put(pos,li);
 			
 		}
-		System.out.println("size "+grille.get(pos).size()+" pos "+pos);
+		//System.out.println("size "+grille.get(pos).size()+" pos "+pos);
 		return grille.get(pos).size();
 	}
 	
