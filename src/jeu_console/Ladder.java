@@ -22,4 +22,9 @@ public class Ladder extends Tool {
 		
 	}
 
+	@Override
+	public String toString() {
+		return "l";
+	}
+	
 }

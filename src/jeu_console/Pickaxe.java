@@ -20,5 +20,10 @@ public class Pickaxe extends Tool {
 			c.takePickaxe();
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "p";
+	}
 
 }
