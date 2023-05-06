@@ -29,7 +29,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+		/*
 		Map<Position, List<Occupant>> m = new TreeMap<Position, List<Occupant>>();
 		List<Occupant> li = new ArrayList<Occupant>();
 		int x = (int)(Math.random() * (X-2) + 1);
@@ -88,8 +88,10 @@ public class Main {
 			}
 			
 		}
-		
-		
+		*/
+		Game g = new Game();
+		g.initialisation();
+		g.play();
 	}
 
 }
