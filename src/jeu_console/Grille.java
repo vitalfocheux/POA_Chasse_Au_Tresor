@@ -26,9 +26,10 @@ public class Grille {
 		for(int x = 0; x < 10; ++x) {
 			for(int y = 0; y < 10; ++y) {
 				Position pos = new Position(x, y);
-				if(grille.containsKey(pos)) {
+				if(!grille.containsKey(pos)) {
 					System.out.print(" ");
 				}else {
+					//System.out.print(pos);
 					System.out.print(grille.get(pos).get(0));
 				}
 			}
@@ -49,5 +50,14 @@ public class Grille {
 	
 	public void addOccupant(Position pos, Occupant o) {
 		grille.get(pos).add(o);
+	}
+	
+	public boolean isFree(Position pos) {
+		if(grille.get(pos).size() == 2) {
+			return false;
+		}else if(grille.get(pos).size() == 1 && (grille.get(pos).get(0) instanceof Character || grille.get(pos).get(0) instanceof Border)) {
+			return false;
+		}
+		return true;
 	}
 }
