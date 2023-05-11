@@ -14,6 +14,10 @@ public class RoadMap extends Fixed {
 		// TODO Auto-generated constructor stub
 	}
 
+	public int distanceBetween(Position treasure) {
+		return 42;
+	}
+	
 	@Override
 	public void process(Character c) {
 		// TODO Auto-generated method stub
