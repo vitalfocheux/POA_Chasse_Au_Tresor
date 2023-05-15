@@ -9,17 +9,17 @@ package jeu_console;
  */
 public class RoadMap extends Fixed {
 	
-	private Position pos;
+	private Treasure treasure;
 
-	public RoadMap(Position pos) {
+	public RoadMap(Position pos, Treasure treasure) {
 		super(pos);
-		this.pos = pos;
+		this.treasure = treasure;
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getDirToTreasure(Position treasure) {
-		int x = treasure.getCol() - this.pos.getCol();
-		int y = treasure.getRow() - this.pos.getRow();
+	public int getDirToTreasure() {
+		int x = treasure.getPos().getCol() - this.getPos().getCol();
+		int y = treasure.getPos().getRow() - this.getPos().getRow();
 		
 		if (x == 0) {
 			if (y > 0) {
@@ -46,7 +46,9 @@ public class RoadMap extends Fixed {
 	
 	@Override
 	public void process(Character c) {
-		// TODO Auto-generated method stub
+		if (c instanceof Hunter) {
+			c.setDir(this.getDirToTreasure());
+		}
 		
 	}
 	
