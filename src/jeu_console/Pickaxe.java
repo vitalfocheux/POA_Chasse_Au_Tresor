@@ -17,6 +17,7 @@ public class Pickaxe extends Tool {
 	@Override
 	public void process(Character c) {
 		if(!c.haveAlreadyPickaxe()) {
+			System.out.println(c.getNom()+" le chasseur ("+c+") a recupéré une pioche");
 			c.takePickaxe();
 		}
 	}
