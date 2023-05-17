@@ -11,20 +11,22 @@ import java.util.*;
  */
 public abstract class Character extends Occupant implements Moveable{
 	
-	private Position tempPos;
 	private Set<String> tools;
+	private boolean haveUseLadder, haveUsePickaxe;
 	private String nom;
 	private char c;
-	private int dir, roundWait;
+	private int dir, dirTemp, roundWait;
 
 	public Character(Position pos, String nom, char c) {
 		super(pos);
-		tempPos = null;
+		dirTemp = 0;
 		tools = new TreeSet<String>();
+		haveUseLadder = false;
+		haveUsePickaxe = false;
 		this.nom = nom;
 		this.c = c;
 		roundWait = 0;
-		dir = (int)(Math.random() * 8 + 1);
+		dir = 3;//(int)(Math.random() * 8 + 1);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -35,17 +37,17 @@ public abstract class Character extends Occupant implements Moveable{
 	
 	
 	/**
-	 * @return the tempPos
+	 * @return the dirPos
 	 */
-	public Position getTempPos() {
-		return tempPos;
+	public int getDirTemp() {
+		return dirTemp;
 	}
 
 	/**
-	 * @param tempPos the tempPos to set
+	 * @param dirTemp the dirTemp to set
 	 */
-	public void setTempPos(Position tempPos) {
-		this.tempPos = tempPos;
+	public void setDirTemp(int dirTemp) {
+		this.dirTemp= dirTemp;
 	}
 
 	public int getRoundWait() {
@@ -105,11 +107,6 @@ public abstract class Character extends Occupant implements Moveable{
 		super.setPos(pos);
 	}
 	
-	@Override
-	public int distanceBetween(Position from, Position to) {
-		return (int)Math.pow((int)Math.abs(from.getCol() - to.getCol()), 2) + (int)Math.pow((int)Math.abs(from.getRow() - to.getRow()), 2);
-	}
-	
 	public boolean haveAlreadyLadder() {
 		return tools.contains("Ladder");
 	}
@@ -124,6 +121,14 @@ public abstract class Character extends Occupant implements Moveable{
 		}
 	}
 	
+	public boolean haveUseLadder() {
+		return haveUseLadder;
+	}
+	
+	public void setUseLadder(boolean b) {
+		haveUseLadder = b;
+	}
+	
 	public boolean haveAlreadyPickaxe() {
 		return tools.contains("Pickaxe");
 	}
@@ -136,10 +141,20 @@ public abstract class Character extends Occupant implements Moveable{
 		tools.add("Pickaxe");
 	}
 	
+	public boolean haveUsePickaxe() {
+		return haveUsePickaxe;
+	}
+	
+	public void setUsePickaxe(boolean b) {
+		haveUsePickaxe = b;
+	}
+	
 	@Override
 	public String toString() {
 		return c+"";
 	}
 	
-
+	public String tools() {
+		return "Tools : "+(haveAlreadyLadder() ? "Ladder" : "")+"; "+(haveAlreadyPickaxe() ? "Pickaxe" : "");
+	}
 }
