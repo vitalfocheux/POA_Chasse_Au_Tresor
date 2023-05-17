@@ -45,7 +45,6 @@ public class Grille {
 	
 	public void removeOccupant(Position pos, int i) {
 		grille.get(pos).remove(i);
-		//System.out.println("après remove "+grille.get(pos));
 	}
 	
 	public void addOccupant(Position pos, Occupant o) {
@@ -58,10 +57,7 @@ public class Grille {
 	public int getSizeListOccupant(Position pos){
 		//System.out.println(grille.containsKey(pos));
 		if(!grille.containsKey(pos)) {
-			List<Occupant> li = new ArrayList<Occupant>();
-			li.add(null);
-			//System.out.println("li = "+li);
-			grille.put(pos,li);
+			grille.put(pos,new ArrayList<Occupant>());
 			
 		}
 		//System.out.println("size "+grille.get(pos).size()+" pos "+pos);
