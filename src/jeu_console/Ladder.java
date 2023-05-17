@@ -17,6 +17,7 @@ public class Ladder extends Tool {
 	@Override
 	public void process(Character c) {
 		if(!c.haveAlreadyLadder()) {
+			System.out.println(c.getNom()+" le chasseur ("+c+") a recupéré une échelle");
 			c.takeLadder();
 		}
 		
