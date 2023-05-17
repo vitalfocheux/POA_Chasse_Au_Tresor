@@ -52,7 +52,7 @@ public class Game {
 		}
 		
 		
-		occupants.add(new Treasure(new Position(1,5)));
+		occupants.add(new Treasure(new Position(4,2)));
 		occupants.add(new RoadMap(new Position(5,5), (Treasure)occupants.get(occupants.size() - 1)));
 		occupants.add(new Hunter(new Position(6,5), "Jean", 'A'));
 		
