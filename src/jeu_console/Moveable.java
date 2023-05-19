@@ -10,7 +10,6 @@ package jeu_console;
 public interface Moveable {
 	
 	public Position getNextPosition(int dir);
-	public void newDirection(int dir);
 	public void walk(Position pos);
 
 }

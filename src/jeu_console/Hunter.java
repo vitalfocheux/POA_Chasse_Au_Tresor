@@ -14,7 +14,6 @@ public class Hunter extends Character {
 	public Hunter(Position pos, String nom, char c) {
 		super(pos, nom, c);
 		treasure = false;
-		// TODO Auto-generated constructor stub
 	}
 
 	

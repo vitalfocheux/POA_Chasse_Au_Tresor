@@ -10,6 +10,9 @@ import java.util.*;
  *
  */
 public class Grille {
+	
+	private int X = 16;
+	private int Y = 31;
 
 	private Map<Position, List<Occupant>> grille;
 	
@@ -23,8 +26,8 @@ public class Grille {
 	}
 	
 	public void afficher() {
-		for(int x = 0; x < 10; ++x) {
-			for(int y = 0; y < 10; ++y) {
+		for(int x = 0; x < X; ++x) {
+			for(int y = 0; y < Y; ++y) {
 				Position pos = new Position(x, y);
 				if(!grille.containsKey(pos) || grille.get(pos).size() == 0) {
 					System.out.print(" ");
@@ -34,6 +37,7 @@ public class Grille {
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 	
 	public Occupant getOccupant(Position pos, int i) {
@@ -55,12 +59,10 @@ public class Grille {
 	}
 	
 	public int getSizeListOccupant(Position pos){
-		//System.out.println(grille.containsKey(pos));
 		if(!grille.containsKey(pos)) {
 			grille.put(pos,new ArrayList<Occupant>());
 			
 		}
-		//System.out.println("size "+grille.get(pos).size()+" pos "+pos);
 		return grille.get(pos).size();
 	}
 	

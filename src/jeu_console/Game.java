@@ -1,5 +1,6 @@
 package jeu_console;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -11,34 +12,44 @@ import java.util.*;
 public class Game {
 
 	private int round;
-	private boolean win;
 	private List<Occupant> occupants;
 	private Grille grille;
 	private int qte_hunter;
+	private ArrayList<String> prHunter = new ArrayList<String>();
+	private int qte_wise;
+	private ArrayList<String> prWise = new ArrayList<String>();
+	private int qte_cheater;
+	private ArrayList<String> prCheater = new ArrayList<String>();
 	private int qte_pickaxe;
 	private int qte_ladder;
 	private int qte_wall;
 	private int qte_glue;
-	private final int X = 10;
-	private final int Y = 10;
+	private final int X = 16;
+	private final int Y = 31;
 	
 	public Game() {
 		round = 1;
-		win = false;
 		occupants = new ArrayList<Occupant>();
-		qte_hunter = 2;
+		qte_hunter = 20;
+		tabString(prHunter, "src/jeu_console/prenom_hunter.txt");
+		qte_wise = 1;
+		tabString(prWise, "src/jeu_console/prenom_wise.txt");
+		qte_cheater = 1;
+		tabString(prCheater, "src/jeu_console/prenom_cheater.txt");
 		qte_pickaxe = 1;
 		qte_ladder = 1;
-		qte_wall = 1;
-		qte_glue = 1;
-		
-		
-		/*for (int i = 0; i < qte_wall; ++i) {
-			Position pos = getFreeRandomPosition();
-			Wall w = new Wall(pos);
-			occupants.add(w);
-		}*/
-		
+		qte_wall = 3;
+		qte_glue = 1;		
+	}
+	
+	public void tabString(ArrayList<String> pr, String src) {
+		try(BufferedReader br = new BufferedReader(new FileReader(new File(src)))){
+			while(br.ready()) {
+				pr.add(br.readLine());
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void initialisation() {
@@ -52,11 +63,6 @@ public class Game {
 		}
 		
 		
-		occupants.add(new Treasure(new Position(4,2)));
-		occupants.add(new RoadMap(new Position(5,5), (Treasure)occupants.get(occupants.size() - 1)));
-		occupants.add(new Hunter(new Position(6,5), "Jean", 'A'));
-		
-		/*
 		for(int i = 0; i < qte_wall; ++i) {
 			int t = (int)(Math.random() * (X-5) + 2);
 			int o = (int)(Math.random() * 2);
@@ -67,29 +73,49 @@ public class Game {
 			w.addStone(stones.get(0));
 			int j = 0;
 			int k = 0;
+			int u = 0;
 			if(o == 0) {
-				while((j + k) < (t-1)) {
+				while((j + k + u) < (t-1)) {
 					if(pos.getCol() + j == Y - 3) {
-						++k;
-						stones.add(new Stone(new Position(pos.getRow(), pos.getCol() - k)));
-						w.addStone(stones.get((j + k)));
+						if(!posIsNextToStone(new Position(pos.getRow(), pos.getCol() - (k+1)))) {
+							++k;
+							stones.add(new Stone(new Position(pos.getRow(), pos.getCol() - k)));
+							w.addStone(stones.get((j + k)));
+						}else {
+							++u;
+						}
+						
 					}else {
-						++j;
-						stones.add(new Stone(new Position(pos.getRow(), pos.getCol() + j)));
-						w.addStone(stones.get((j + k)));
+						if(!posIsNextToStone(new Position(pos.getRow(), pos.getCol() + (j+1)))) {
+							++j;
+							stones.add(new Stone(new Position(pos.getRow(), pos.getCol() + j)));
+							w.addStone(stones.get((j + k)));
+						}else {
+							++u;
+						}
+						
 					}
 				}
 			}else {
-				while((j + k) < (t- 1)) {
-					System.out.println((j+k));
+				while((j + k + u) < (t- 1)) {
 					if(pos.getRow() + j == X - 3) {
-						++k;
-						stones.add(new Stone(new Position(pos.getRow() - k, pos.getCol())));
-						w.addStone(stones.get((j + k)));
+						if(!posIsNextToStone(new Position(pos.getRow() - (k+1), pos.getCol()))) {
+							++k;
+							stones.add(new Stone(new Position(pos.getRow() - k, pos.getCol())));
+							w.addStone(stones.get((j + k)));
+						}else {
+							++u;
+						}
+						
 					}else {
-						++j;
-						stones.add(new Stone(new Position(pos.getRow() + j, pos.getCol())));
-						w.addStone(stones.get((j + k)));
+						if(!posIsNextToStone(new Position(pos.getRow() + (j+1), pos.getCol()))) {
+							++j;
+							stones.add(new Stone(new Position(pos.getRow() + j, pos.getCol())));
+							w.addStone(stones.get((j + k)));
+						}else {
+							++u;
+						}
+						
 					}
 				}
 			}
@@ -99,12 +125,20 @@ public class Game {
 			}
 		}
 		
+		Treasure treasure = new Treasure(getFreeRandomPosition());
 		
-		occupants.add(new Treasure(getFreeRandomPosition()));
-		occupants.add(new RoadMap(getFreeRandomPosition(), (Treasure)occupants.get(occupants.size() - 1)));
-		for (int i = 0; i < qte_hunter; ++i) {
+		occupants.add(treasure);
+		
+		for (int i = 0; i < (qte_hunter+qte_wise+qte_cheater); ++i) {
 			char c = (char)('A'+ i);
-			occupants.add(new Hunter(getFreeRandomPosition(), "Jean",c));
+			if(i < qte_hunter) {
+				occupants.add(createHunter(c));
+			}else if(i < (qte_hunter + qte_wise)) {
+				occupants.add(createWise(treasure, c));
+			}else {
+				occupants.add(createCheater(treasure, c));
+			}
+			
 		}
 		for (int i = 0; i < qte_pickaxe; ++i) {
 			occupants.add(new Pickaxe(getFreeRandomPosition()));
@@ -114,7 +148,7 @@ public class Game {
 		}
 		for (int i = 0; i < qte_glue; ++i) {
 			occupants.add(new Glue(getFreeRandomPosition()));
-		}*/
+		}
 		
 		grille = new Grille(occupants);
 		System.out.println("Grille lors de l'initialisation du jeu :\n");
@@ -126,12 +160,24 @@ public class Game {
 		}
 	}
 	
+	public Hunter createHunter(char c) {
+		return new Hunter(getFreeRandomPosition(), prHunter.get((int)( Math.random() * prHunter.size())), c);
+	}
+	
+	public Wise createWise(Treasure treasure, char c) {
+		return new Wise(getFreeRandomPosition(), prWise.get((int)( Math.random() * prWise.size())), c, treasure);
+	}
+	
+	public Cheater createCheater(Treasure treasure, char c) {
+		return new Cheater(getFreeRandomPosition(), prCheater.get((int)( Math.random() * prCheater.size())), c, treasure);
+	}
+	
 	public Position getFreeRandomWallPosition() {
 		Position pos;
 		do {
 			pos = new Position((int)(Math.random() * (X-4) + 1), (int)(Math.random() * (Y-4) + 1));
 			
-		}while(!posIsFree(pos) || posIsNextToStone(pos));
+		}while(!posIsFree(pos) || posIsNextToStone(pos) || ((pos.getCol()== 1 || pos.getCol()== Y - 2 || pos.getRow() == 1 || pos.getRow() == X - 2)));
 		System.out.println(pos);
 		return pos;
 	}
@@ -155,10 +201,7 @@ public class Game {
 		for(Occupant o : occupants) {
 			int oCol = o.getPos().getCol();
 			int oRow = o.getPos().getRow();
-			if(o instanceof Border) {
-				return (posCol == 1 || posCol == Y - 2 || posRow == 1 || posRow == X - 2);
-			}
-			if(oCol + 1 == posCol || oCol - 1 == posCol || oRow + 1 == posRow || oRow - 1 == posRow) {
+			if(o instanceof Stone && (oCol + 1 == posCol || oCol - 1 == posCol || oRow + 1 == posRow || oRow - 1 == posRow)) {
 				return true;
 			}
 		}
@@ -178,16 +221,27 @@ public class Game {
 		grille.afficher();
 	}
 	
+	public boolean treasureIsFind() {
+		for(Occupant o : occupants) {
+			if(o instanceof Hunter) {
+				if(((Hunter)(o)).haveTreasure()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void play() {
-		for(;round < 3; ++round) {
+		do{
 			for(Occupant o : occupants) {
-				if(o instanceof Hunter) {
+				if(o instanceof Hunter || o instanceof Wise || o instanceof Cheater) {
 					Character c = (Character)o;
 					Position pos = c.getPos();
-					Position next = ((Hunter) o).getNextPosition(c.getDir());
+					Position next = c.getNextPosition(c.getDir());
 					
 					if(( grille.getOccupant(next, grille.getSizeListOccupant(next) - 1) instanceof Stone) && c.getDirTemp() != 0 && (!c.haveAlreadyLadder() || !c.haveAlreadyPickaxe())) {
-						next = ((Hunter)o).getNextPosition(c.getDirTemp());
+						next = c.getNextPosition(c.getDirTemp());
 					}else {
 						c.setDirTemp(0);
 					}
@@ -203,30 +257,47 @@ public class Game {
 								pr.process(c);
 								c.setUsePickaxe(false);
 							}
-						}else {
+						}else {							
 							pr.process(c);
 						}
 					}
 					if(canWalk) {
-						int i = grille.getSizeListOccupant(pos);
-						grille.removeOccupant(pos, (i-1));
-						c.walk(next);
-						if(c.haveUseLadder()) {
-							if(!(grille.getOccupant(next, grille.getSizeListOccupant(next) - 1) instanceof Stone)) {
-								c.useLadder();
-								c.setUseLadder(false);
+						if(c.getRoundWait() == 0 || (c.getRoundWait() == 1 && pr instanceof Glue)) {
+							int i = grille.getSizeListOccupant(pos);
+							grille.removeOccupant(pos, (i-1));
+							c.walk(next);
+							if(c.haveUseLadder()) {
+								if(!(grille.getOccupant(next, grille.getSizeListOccupant(next) - 1) instanceof Stone)) {
+									c.useLadder();
+									c.setUseLadder(false);
+								}
 							}
+							grille.addOccupant(next, o);
+						}else {
+							
+							c.downRoundWait();
 						}
-						grille.addOccupant(next, o);
+						
 					}
 					
 				}
 			}
 			System.out.println("\nTour n°"+round+" :\n");
 			afficher();
+			/*
 			for(Occupant o : occupants) {
 				if(o instanceof Character) {
-					System.out.println(o+"  "+o.getPos()+" dir : "+((Character)(o)).getDir()+" dirT : "+((Character)(o)).getDirTemp()+"\n"+((Character)(o)).tools());
+					System.out.println(((Character)(o)).getNom()+"  "+o.getPos()+" dir : "+((Character)(o)).getDir()+" dirT : "+((Character)(o)).getDirTemp()+"RW : "+((Character)(o)).getRoundWait()+"\n"+((Character)(o)).tools());
+				}
+			}*/
+			++round;
+		}while(!treasureIsFind());
+		
+		for(Occupant o : occupants) {
+			if(o instanceof Hunter) {
+				if(((Hunter)(o)).haveTreasure()) {
+					Character c = (Hunter)o;
+					System.out.println(c.getNom()+ " le chasseur ("+c+") a gagné la partie");
 				}
 			}
 		}

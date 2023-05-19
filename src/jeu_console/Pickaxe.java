@@ -11,13 +11,20 @@ public class Pickaxe extends Tool {
 
 	public Pickaxe(Position pos) {
 		super(pos);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void process(Character c) {
 		if(!c.haveAlreadyPickaxe()) {
-			System.out.println(c.getNom()+" le chasseur ("+c+") a recupéré une pioche");
+			System.out.print(c.getNom());
+			if(c instanceof Hunter) {
+				System.out.print(" le chasseur ");
+			}else if(c instanceof Wise) {
+				System.out.print(" le mage ");
+			}else if(c instanceof Cheater) {
+				System.out.print(" le tricheur ");
+			}
+			System.out.println("("+c+") a recupéré une pioche");
 			c.takePickaxe();
 		}
 	}

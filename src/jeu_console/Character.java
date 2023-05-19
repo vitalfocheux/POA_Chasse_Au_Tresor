@@ -26,8 +26,7 @@ public abstract class Character extends Occupant implements Moveable{
 		this.nom = nom;
 		this.c = c;
 		roundWait = 0;
-		dir = 3;//(int)(Math.random() * 8 + 1);
-		// TODO Auto-generated constructor stub
+		dir = (int)(Math.random() * 8 + 1);
 	}
 	
 	public String getNom() {
@@ -91,15 +90,6 @@ public abstract class Character extends Occupant implements Moveable{
 				return new Position(this.getPos().getRow()+1, this.getPos().getCol()+1);
 			}
 		return null;
-	}
-	
-	@Override
-	public void newDirection(int dir) {
-		if(dir < 5) {
-			setDir(dir+4);
-		}else {
-			setDir(dir-4);
-		}
 	}
 	
 	@Override

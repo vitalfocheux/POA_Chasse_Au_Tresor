@@ -8,10 +8,12 @@ package jeu_console;
  *
  */
 public class Border extends Fixed{
+	
+	private int X = 16;
+	private int Y = 31;
 
 	public Border(Position pos) {
 		super(pos);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class Border extends Fixed{
 		if(pos.getCol() == 0) {
 			if(pos.getRow() == 0) {
 				c.setDir(8);
-			}else if(pos.getRow() == 9) {
+			}else if(pos.getRow() == X-1) {
 				c.setDir(2);
 			}else if(c.getDir() == 6) {
 				c.setDir(8);
@@ -34,10 +36,10 @@ public class Border extends Fixed{
 			}else if(c.getDir() == 5){
 				c.setDir(1);
 			}
-		}else if(pos.getCol() == 9) {
+		}else if(pos.getCol() == Y-1) {
 			if(pos.getRow() == 0) {
 				c.setDir(6);
-			}else if(pos.getRow() == 9) {
+			}else if(pos.getRow() == X-1) {
 				c.setDir(4);
 			}else if(c.getDir() == 8) {
 				c.setDir(6);
@@ -54,7 +56,7 @@ public class Border extends Fixed{
 			}else if(c.getDir() == 3){
 				c.setDir(7);
 			}
-		}else if(pos.getRow() == 9) {
+		}else if(pos.getRow() == X-1) {
 			if(c.getDir() == 8) {
 				c.setDir(2);
 			}else if(c.getDir() == 6) {

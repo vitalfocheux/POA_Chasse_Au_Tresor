@@ -14,7 +14,6 @@ public class Wise extends Character {
 	public Wise(Position pos, String nom, char c, Treasure treasure) {
 		super(pos, nom, c);
 		this.treasure = treasure;
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**

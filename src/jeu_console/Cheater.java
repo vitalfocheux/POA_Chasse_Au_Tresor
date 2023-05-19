@@ -67,5 +67,5 @@ public class Cheater extends Character{
 		if(c instanceof Hunter) {
 			c.setDir(this.getDirToTreasure());
 		}
-	}	
+	}
 }

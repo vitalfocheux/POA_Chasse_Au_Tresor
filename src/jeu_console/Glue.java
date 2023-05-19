@@ -11,7 +11,6 @@ public class Glue extends Fixed {
 
 	public Glue(Position pos) {
 		super(pos);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

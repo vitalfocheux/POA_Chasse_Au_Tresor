@@ -11,7 +11,6 @@ public abstract class Fixed extends Occupant {
 
 	public Fixed(Position pos) {
 		super(pos);
-		// TODO Auto-generated constructor stub
 	}
 
 }

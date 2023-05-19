@@ -14,7 +14,6 @@ public class RoadMap extends Fixed {
 	public RoadMap(Position pos, Treasure treasure) {
 		super(pos);
 		this.treasure = treasure;
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
