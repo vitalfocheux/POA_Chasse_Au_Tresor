@@ -4,6 +4,7 @@
 package jeu_console;
 
 /**
+ * Describe a wise on a map by means of a position, a name and a character
  * @author Vital FOCHEUX
  *
  */
@@ -11,6 +12,13 @@ public class Wise extends Character {
 	
 	private Treasure treasure;
 
+	/**
+	 * 
+	 * @param pos the position of the wise
+	 * @param nom the name of the wise
+	 * @param c the representation of the wise with toString
+	 * @param treasure the treasure of the map
+	 */
 	public Wise(Position pos, String nom, char c, Treasure treasure) {
 		super(pos, nom, c);
 		this.treasure = treasure;
@@ -69,6 +77,10 @@ public class Wise extends Character {
 		return -1;
 	}
 
+	/**
+	 * Perform the process that the character <i>c</i> must perform when 
+	 * encountering the wise by changing its direction.
+	 */
 	@Override
 	public void process(Character c) {
 		if(c instanceof Hunter) {

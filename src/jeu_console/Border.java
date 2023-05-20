@@ -4,6 +4,7 @@
 package jeu_console;
 
 /**
+ * Describe a border on a map by means of a position
  * @author Vital FOCHEUX
  *
  */
@@ -12,15 +13,26 @@ public class Border extends Fixed{
 	private int X = 16;
 	private int Y = 31;
 
+	/**
+	 * Build a border with the position
+	 * @param pos the position of the border 
+	 */
 	public Border(Position pos) {
 		super(pos);
 	}
 
+	/**
+	 * @return the String of the representation of the border
+	 */
 	@Override
 	public String toString() {
 		return "#";
 	}
 
+	/**
+	 * Perform the process that character <i>c</i> must perform when encountering
+	 * a border by changing its direction.
+	 */
 	@Override
 	public void process(Character c) {
 		Position pos = c.getNextPosition(c.getDir());

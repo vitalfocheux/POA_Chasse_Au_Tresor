@@ -4,13 +4,19 @@
 package jeu_console;
 
 /**
- * @author Vital FOCHEUX & Elian BADSTÜBER
+ * Describe a roadmap on a map by means of a position and a treasure
+ * @author Vital FOCHEUX et Elian BADSTÜBER
  *
  */
 public class RoadMap extends Fixed {
 	
 	private Treasure treasure;
 
+	/**
+	 * 
+	 * @param pos the position of the roadmap
+	 * @param treasure the treasure of the map
+	 */
 	public RoadMap(Position pos, Treasure treasure) {
 		super(pos);
 		this.treasure = treasure;
@@ -69,6 +75,10 @@ public class RoadMap extends Fixed {
 		return -1;
 	}
 	
+	/**
+	 * Perform the process that the character <i>c</i> must perform when 
+	 * encountering the roadmap by changing its direction.
+	 */
 	@Override
 	public void process(Character c) {
 		if (c instanceof Hunter) {
@@ -77,6 +87,9 @@ public class RoadMap extends Fixed {
 		
 	}
 	
+	/**
+	 * @return the String representation of the roadmap
+	 */
 	@Override
 	public String toString() {
 		return "x";

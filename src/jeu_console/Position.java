@@ -40,7 +40,7 @@ public class Position implements Comparable<Position>{
 	
 	/**
 	 * 
-	 * @param pos
+	 * @param pos the position to update
 	 */
 	public void updatePosition(Position pos) {
 		row = pos.getRow();
@@ -49,8 +49,8 @@ public class Position implements Comparable<Position>{
 	
 	/**
 	 * 
-	 * @param row
-	 * @param col
+	 * @param row the row number
+	 * @param col the col number
 	 */
 	public void updatePosition(int row, int col) {
 		this.row = row;
@@ -59,10 +59,10 @@ public class Position implements Comparable<Position>{
 	
 	
 
-	/** Tests if position <i>this</i> equals position <i>o</i>.
-	 * @return true if <i>o</i> is a position and <i>this</i> and <i>o</i> have same row
+	/** Tests if position <i>this</i> equals position <i>that</i>.
+	 * @return true if <i>that</i> is a position and <i>this</i> and <i>that</i> have same row
 	 * number and column number, false otherwise.
-	 * @param o an object (supposedly a Position) to be compared with the current one
+	 * @param that an object (supposedly a Position) to be compared with the current one
 	 */
 	public boolean equals(Object that) {
 		if(! (that instanceof Position)) {
@@ -82,6 +82,10 @@ public class Position implements Comparable<Position>{
 		return "["+ row +", "+ col + "]";
 	}
 
+	/**
+	 * Compare the position <i>this</i> with the position <i>that</i> by comparing their row.
+	 * their rows are equal, then we will compare their cols
+	 */
 	@Override
 	public int compareTo(Position that) {
 		// TODO Auto-generated method stub

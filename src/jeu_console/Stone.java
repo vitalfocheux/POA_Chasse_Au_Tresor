@@ -2,23 +2,42 @@ package jeu_console;
 
 import java.util.LinkedList;
 
+/**
+ * Describe a stone on a map by means of the position
+ * @author Vital FOCHEUX
+ *
+ */
 public class Stone extends Fixed implements Comparable<Stone>{
 	
 	private Wall wall;
-	
+
+	/**
+	 * 
+	 * @param pos the position of the stone
+	 */
 	public Stone(Position pos) {
 		super(pos);
 	}
 	
+	/**
+	 * @param wall the wall to wich the stone belongs
+	 */
 	public void addWall(Wall wall) {
 		this.wall = wall;
 	}
 	
+	/**
+	 * @return the String representation of the stone
+	 */
 	@Override
 	public String toString() {
 		return"#";
 	}
 
+	/**
+	 * Perform the process that the character <i>c</i> must perform
+	 * when encountering a wall by changing its temp direction
+	 */
 	@Override
 	public void process(Character c) {
 		if(c.haveAlreadyLadder()) {
@@ -79,6 +98,10 @@ public class Stone extends Fixed implements Comparable<Stone>{
 		}
 	}
 
+	/**
+	 * Compare the stone <i>this</i> with the stone <i>o</i>
+	 * by comparing their positions
+	 */
 	@Override
 	public int compareTo(Stone o) {
 		return this.getPos().compareTo(o.getPos());
