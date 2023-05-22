@@ -53,7 +53,7 @@ public class Game {
 	 * @param pr the list of the names
 	 * @param src the source of the file
 	 */
-	public void tabString(ArrayList<String> pr, String src) {
+	private void tabString(ArrayList<String> pr, String src) {
 		try(BufferedReader br = new BufferedReader(new FileReader(new File(src)))){
 			while(br.ready()) {
 				pr.add(br.readLine());
@@ -192,7 +192,7 @@ public class Game {
 	 * @param c the representation of the hunter with toString
 	 * @return a hunter with random position
 	 */
-	public Hunter createHunter(char c) {
+	private Hunter createHunter(char c) {
 		return new Hunter(getFreeRandomPosition(), prHunter.get((int)( Math.random() * prHunter.size())), c);
 	}
 	
@@ -201,7 +201,7 @@ public class Game {
 	 * @param c the representation of the wise  with toString
 	 * @return a wise with random position
 	 */
-	public Wise createWise(Treasure treasure, char c) {
+	private Wise createWise(Treasure treasure, char c) {
 		return new Wise(getFreeRandomPosition(), prWise.get((int)( Math.random() * prWise.size())), c, treasure);
 	}
 	
@@ -210,7 +210,7 @@ public class Game {
 	 * @param c the representation of the cheater with toString
 	 * @return a cheater with random position
 	 */
-	public Cheater createCheater(Treasure treasure, char c) {
+	private Cheater createCheater(Treasure treasure, char c) {
 		return new Cheater(getFreeRandomPosition(), prCheater.get((int)( Math.random() * prCheater.size())), c, treasure);
 	}
 	
@@ -218,7 +218,7 @@ public class Game {
 	 * 
 	 * @return the position of a stone that is neither to another stone nor to a border
 	 */
-	public Position getFreeRandomWallPosition() {
+	private Position getFreeRandomWallPosition() {
 		Position pos;
 		int i = 0;
 		do {
@@ -235,7 +235,7 @@ public class Game {
 	 * 
 	 * @return a random available position
 	 */
-	public Position getFreeRandomPosition() {
+	private Position getFreeRandomPosition() {
 		Position pos;
 		do { pos = getRandomPosition(); }
 		while (!posIsFree(pos));
@@ -246,7 +246,7 @@ public class Game {
 	 * 
 	 * @return a random position
 	 */
-	public Position getRandomPosition() {
+	private Position getRandomPosition() {
 		int x = (int)(Math.random() * (X-2) + 1);
 		int y = (int)(Math.random() * (Y-2) + 1);
 		return new Position(x,y);
@@ -257,7 +257,7 @@ public class Game {
 	 * @param pos the position
 	 * @return whether the position is next to a stone or not
 	 */
-	public boolean posIsNextToStone(Position pos) {
+	private boolean posIsNextToStone(Position pos) {
 		int posCol = pos.getCol();
 		int posRow = pos.getRow();
 		for(Occupant o : occupants) {
@@ -275,7 +275,7 @@ public class Game {
 	 * @param pos the position
 	 * @return whether the position is available or not
 	 */
-	public boolean posIsFree(Position pos) {
+	private boolean posIsFree(Position pos) {
 		for (Occupant o : occupants) {
 			if (o.getPos().equals(pos)) {
 				return false;
@@ -287,7 +287,7 @@ public class Game {
 	/**
 	 *Display the game
 	 */
-	public void afficher() {
+	private void afficher() {
 		grille.afficher();
 	}
 	
@@ -295,7 +295,7 @@ public class Game {
 	 * 
 	 * @return whether a hunter has found the treasure or not
 	 */
-	public boolean treasureIsFind() {
+	private boolean treasureIsFind() {
 		for(Occupant o : occupants) {
 			if(o instanceof Hunter) {
 				if(((Hunter)(o)).haveTreasure()) {

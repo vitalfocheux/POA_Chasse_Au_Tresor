@@ -39,7 +39,7 @@ public class RoadMap extends Fixed {
 	 * 
 	 * @return the direction to the treasure, using tangent
 	 */
-	public int getDirToTreasure() {
+	private int getDirToTreasure() {
 		
 		int row = treasure.getPos().getRow() - this.getPos().getRow();
 		int col = treasure.getPos().getCol() - this.getPos().getCol();
