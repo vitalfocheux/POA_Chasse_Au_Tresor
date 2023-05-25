@@ -10,12 +10,22 @@ package jeu_console;
  */
 public class Ladder extends Tool {
 
+	private String str = "";
+	
 	/**
 	 * 
 	 * @param pos the position of the ladder
 	 */
 	public Ladder(Position pos) {
 		super(pos);
+	}
+	
+	public String whoTookLadder() {
+		return str;
+	}
+	
+	private void tookLadder(String str) {
+		this.str = str;
 	}
 	
 	/**
@@ -25,15 +35,18 @@ public class Ladder extends Tool {
 	@Override
 	public void process(Character c) {
 		if(!c.haveAlreadyLadder()) {
-			System.out.print(c.getNom());
+			String str = "";
+			str += c.getNom();
 			if(c instanceof Hunter) {
-				System.out.print(" le chasseur ");
+				str += " le chasseur ";
 			}else if(c instanceof Wise) {
-				System.out.print(" le mage ");
+				str += " le mage ";
 			}else if(c instanceof Cheater) {
-				System.out.print(" le tricheur ");
+				str += " le tricheur ";
 			}
-			System.out.println("("+c+") a recupéré une échelle");
+			str += "("+c+") a recupéré une échelle";
+			System.out.println(str);
+			tookLadder(str);
 			c.takeLadder();
 		}
 		

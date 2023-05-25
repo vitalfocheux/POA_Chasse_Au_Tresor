@@ -27,6 +27,7 @@ public class Game {
 	private int qte_glue;
 	private final int X = 16;
 	private final int Y = 31;
+	private String histo = "";
 	
 
 	/**
@@ -61,6 +62,14 @@ public class Game {
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<Occupant> getOccupants(){
+		return occupants;
+	}
+	
+	public Grille getGrille(){
+		return grille;
 	}
 	
 	/**
@@ -295,7 +304,7 @@ public class Game {
 	 * 
 	 * @return whether a hunter has found the treasure or not
 	 */
-	private boolean treasureIsFind() {
+	public boolean treasureIsFind() {
 		for(Occupant o : occupants) {
 			if(o instanceof Hunter) {
 				if(((Hunter)(o)).haveTreasure()) {
@@ -304,6 +313,101 @@ public class Game {
 			}
 		}
 		return false;
+	}
+	
+	public int getRound() {
+		return round;
+	}
+	
+	public String getHistory() {
+		return histo;
+	}
+	
+	public void playARound() {
+		histo = "";
+		for(Occupant o : occupants) {
+			if(o instanceof Hunter || o instanceof Wise || o instanceof Cheater) {
+				Character c = (Character)o;
+				Position pos = c.getPos();
+				Position next = c.getNextPosition(c.getDir());
+				
+				if(( grille.getOccupant(next, grille.getSizeListOccupant(next) - 1) instanceof Stone) && c.getDirTemp() != 0 && (!c.haveAlreadyLadder() || !c.haveAlreadyPickaxe())) {
+					next = c.getNextPosition(c.getDirTemp());
+				}else {
+					c.setDirTemp(0);
+				}
+				
+				Occupant pr = grille.getOccupant(next, grille.getSizeListOccupant(next)-1);
+
+				boolean canWalk = (pr instanceof Tool || pr instanceof Glue || pr instanceof Treasure || pr instanceof RoadMap || pr == null || (pr instanceof Stone && (c.haveAlreadyLadder() || c.haveAlreadyPickaxe()))) ? true : false;
+				
+				if(pr != null) {
+					Occupant act = grille.getOccupant(pos, 0);
+					if(act != null && act instanceof Stone) {
+						if(c.haveUsePickaxe()) {
+							pr.process(c);
+							//histo += ((Pickaxe)(pr)).whoTookPickaxe();
+							c.setUsePickaxe(false);
+						}
+					}else {							
+						pr.process(c);
+						if(pr instanceof Ladder) {
+							histo += ((Ladder)(pr)).whoTookLadder();
+						}else if(pr instanceof Pickaxe) {
+							histo += ((Pickaxe)(pr)).whoTookPickaxe();
+						}
+						
+					}
+				}
+				if(canWalk) {
+					if(c.getRoundWait() == 0 || (c.getRoundWait() == 1 && pr instanceof Glue)) {
+						int i = grille.getSizeListOccupant(pos);
+						grille.removeOccupant(pos, (i-1));
+						c.walk(next);
+						if(c.haveUseLadder()) {
+							if(!(grille.getOccupant(next, grille.getSizeListOccupant(next) - 1) instanceof Stone)) {
+								c.useLadder();
+								c.setUseLadder(false);
+							}
+						}
+						grille.addOccupant(next, o);
+					}else {
+						
+						c.downRoundWait();
+					}
+					
+				}
+				
+			}
+		}
+		System.out.println("\nTour n°"+round+" :\n");
+		afficher();
+		if(histo.length() == 0) {
+			histo += "Il ne s'est rien passé de particuliers ce tour ci";
+		}
+		for(Occupant o : occupants) {
+			if(o instanceof Character) {
+				System.out.println(o+" "+o.getPos()+" "+((Character)(o)).getDir());
+			}
+		}
+		++round;
+		
+	}
+	
+	public void results() {
+		histo = "Fin du jeu : \n";
+		if(round >= 1000) {
+			histo += "Personne n'a gagné la partie";
+		}else {
+			for(Occupant o : occupants) {
+				if(o instanceof Hunter) {
+					if(((Hunter)(o)).haveTreasure()) {
+						Character c = (Hunter)o;
+						histo += c.getNom()+ " le chasseur ("+c+") a gagné la partie";
+					}
+				}
+			}
+		}
 	}
 	
 	/**

@@ -85,6 +85,11 @@ public class Wise extends Character {
 	public void process(Character c) {
 		if(c instanceof Hunter) {
 			c.setDir(this.getDirToTreasure());
+		}else {
+			int dir = c.getDir();
+			do {
+				c.setDir( (int)(Math.random() * (7) + 1));
+			}while(c.getDir() == dir);
 		}
 
 	}
