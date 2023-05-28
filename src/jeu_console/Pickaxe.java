@@ -9,8 +9,6 @@ package jeu_console;
  *
  */
 public class Pickaxe extends Tool {
-
-	private String str = "";
 	
 	/**
 	 * 
@@ -18,14 +16,6 @@ public class Pickaxe extends Tool {
 	 */
 	public Pickaxe(Position pos) {
 		super(pos);
-	}
-	
-	public String whoTookPickaxe() {
-		return str;
-	}
-	
-	private void tookPickaxe(String str) {
-		this.str = str;
 	}
 
 	/**
@@ -44,8 +34,7 @@ public class Pickaxe extends Tool {
 				str += " le tricheur ";
 			}
 			str += "("+c+") a recupéré une pioche";
-			tookPickaxe(str);
-			System.out.println(str);
+			this.setHistoProcess(str);
 			c.takePickaxe();
 		}
 	}

@@ -81,9 +81,12 @@ public class RoadMap extends Fixed {
 	 */
 	@Override
 	public void process(Character c) {
+		String str = "";
 		if (c instanceof Hunter) {
 			c.setDir(this.getDirToTreasure());
+			str += c.getNom()+" le chasseur ("+c+") a été redirigé dans la direction "+c.getDir()+" vers le trésor";
 		}
+		this.setHistoProcess(str);
 		
 	}
 	
@@ -94,5 +97,4 @@ public class RoadMap extends Fixed {
 	public String toString() {
 		return "x";
 	}
-
 }

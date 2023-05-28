@@ -34,6 +34,7 @@ public class Treasure extends Fixed {
 	public void process(Character c) {
 		if(c instanceof Hunter) {
 			((Hunter) c).gotTreasure();
+			this.setHistoProcess(c.getNom()+" le chasseur ("+c+") a trouvé le trésor");
 		}
 	}
 

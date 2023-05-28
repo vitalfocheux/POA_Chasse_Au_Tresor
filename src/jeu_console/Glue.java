@@ -9,7 +9,7 @@ package jeu_console;
  *
  */
 public class Glue extends Fixed {
-
+	
 	/**
 	 * 
 	 * @param pos the position of the glue
@@ -32,9 +32,17 @@ public class Glue extends Fixed {
 	 */
 	@Override
 	public void process(Character c) {
+		String str = c.getNom();
+		if(c instanceof Hunter) {
+			str += " le chasseur ";
+		}else if(c instanceof Wise) {
+			str += " le mage ";
+		}else if(c instanceof Cheater) {
+			str += " le tricheur ";
+		}
+		str += "("+c+") s'est retrouvé dans la colle";
 		c.upRoundWait();		
+		this.setHistoProcess(str);
 	}
-
-	
 	
 }

@@ -48,17 +48,12 @@ public class Window extends JFrame {
         
         histo = new JPanel();
         histo.setLayout(new GridLayout(0,1));
-        /*for(int i = 0; i < 3; ++i) {
-        	histo.add(new JLabel("Jeu lors de l'initialisation"));
-			histo.add(new JLabel("Tour n°"+i+"\n"));
-			histo.add(new JLabel("dkfjùsjdfmjlsmùldfmljsdmfjlzeùlkdfeldsfùmlrdjsfj*sdmfj*emsjodf"));
-		}*/
         
         sp = new JScrollPane(histo);
 
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        sp.setPreferredSize(new Dimension(400,0));
+        sp.setPreferredSize(new Dimension(700,0));
         
         buttonNewGame = new JButton("Nouvelle partie");
         buttonPlayManual = new JButton("Mode manuel");
@@ -123,4 +118,9 @@ public class Window extends JFrame {
 	    sp.getVerticalScrollBar().setValue(sp.getVerticalScrollBar().getMaximum()); // Fait défiler vers le bas
 	}
 
+	public void cleanHistory() {
+		histo.removeAll();
+		sp.revalidate();
+	}
+	
 }

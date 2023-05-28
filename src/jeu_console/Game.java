@@ -27,26 +27,48 @@ public class Game {
 	private int qte_glue;
 	private final int X = 16;
 	private final int Y = 31;
-	private String histo = "";
+	private ArrayList<String> histo;
 	
 
 	/**
 	 * 
 	 */
-	public Game() {
+	public Game(int qte_hunter, int qte_wise, int qte_cheater, int qte_roadmap, int qte_pickaxe, int qte_ladder, int qte_wall,  int qte_glue) {
 		round = 1;
 		occupants = new ArrayList<Occupant>();
-		qte_hunter = 5;
+		this.qte_hunter = qte_hunter;
 		tabString(prHunter, "src/jeu_console/prenom_hunter.txt");
-		qte_wise = 5;
+		this.qte_wise = qte_wise;
 		tabString(prWise, "src/jeu_console/prenom_wise.txt");
-		qte_cheater = 5;
+		this.qte_cheater = qte_cheater;
 		tabString(prCheater, "src/jeu_console/prenom_cheater.txt");
-		qte_roadmap = 1;
-		qte_pickaxe = 1;
-		qte_ladder = 1;
-		qte_wall = 5;
-		qte_glue = 1;		
+		this.qte_roadmap = qte_roadmap;
+		this.qte_pickaxe = qte_pickaxe;
+		this.qte_ladder = qte_ladder;
+		this.qte_wall = qte_wall;
+		this.qte_glue = qte_glue;	
+		histo = new ArrayList<String>();
+	}
+	
+	public Game() {
+		this(5,5,5,1,1,1,5,1);
+	}
+	
+	public Game(ArrayList<Integer> stats) {
+		this(stats.get(0),stats.get(1),stats.get(2),stats.get(3),stats.get(4),stats.get(5),stats.get(6),stats.get(7));
+	}
+	
+	public ArrayList<Integer> getStats(){
+		ArrayList<Integer> stats = new ArrayList<Integer>();
+		stats.add(qte_hunter);
+		stats.add(qte_wise);
+		stats.add(qte_cheater);
+		stats.add(qte_roadmap);
+		stats.add(qte_pickaxe);
+		stats.add(qte_ladder);
+		stats.add(qte_wall);
+		stats.add(qte_glue);
+		return stats;
 	}
 	
 	/**
@@ -187,13 +209,6 @@ public class Game {
 		
 		
 		grille = new Grille(occupants);
-		System.out.println("Grille lors de l'initialisation du jeu :\n");
-		afficher();
-		for(Occupant o : occupants) {
-			if(o instanceof Character) {
-				System.out.println(o+" "+o.getPos()+" "+((Character)(o)).getDir());
-			}
-		}
 	}
 	
 	/**
@@ -294,13 +309,6 @@ public class Game {
 	}
 	
 	/**
-	 *Display the game
-	 */
-	private void afficher() {
-		grille.afficher();
-	}
-	
-	/**
 	 * 
 	 * @return whether a hunter has found the treasure or not
 	 */
@@ -319,12 +327,12 @@ public class Game {
 		return round;
 	}
 	
-	public String getHistory() {
+	public ArrayList<String> getHistory() {
 		return histo;
 	}
 	
 	public void playARound() {
-		histo = "";
+		histo = new ArrayList<String>();
 		for(Occupant o : occupants) {
 			if(o instanceof Hunter || o instanceof Wise || o instanceof Cheater) {
 				Character c = (Character)o;
@@ -346,17 +354,11 @@ public class Game {
 					if(act != null && act instanceof Stone) {
 						if(c.haveUsePickaxe()) {
 							pr.process(c);
-							//histo += ((Pickaxe)(pr)).whoTookPickaxe();
 							c.setUsePickaxe(false);
 						}
 					}else {							
 						pr.process(c);
-						if(pr instanceof Ladder) {
-							histo += ((Ladder)(pr)).whoTookLadder();
-						}else if(pr instanceof Pickaxe) {
-							histo += ((Pickaxe)(pr)).whoTookPickaxe();
-						}
-						
+						histo.add(pr.getHistoProcess());
 					}
 				}
 				if(canWalk) {
@@ -380,107 +382,29 @@ public class Game {
 				
 			}
 		}
-		System.out.println("\nTour n°"+round+" :\n");
-		afficher();
-		if(histo.length() == 0) {
-			histo += "Il ne s'est rien passé de particuliers ce tour ci";
-		}
-		for(Occupant o : occupants) {
-			if(o instanceof Character) {
-				System.out.println(o+" "+o.getPos()+" "+((Character)(o)).getDir());
-			}
+		if(histo.size() == 0) {
+			histo.add("Il ne s'est rien passé de particuliers ce tour ci");
 		}
 		++round;
 		
 	}
 	
 	public void results() {
-		histo = "Fin du jeu : \n";
+		histo = new ArrayList<String>();
+		String str = "Fin du jeu : \n";
 		if(round >= 1000) {
-			histo += "Personne n'a gagné la partie";
+			str += "Personne n'a gagné la partie";
 		}else {
 			for(Occupant o : occupants) {
 				if(o instanceof Hunter) {
 					if(((Hunter)(o)).haveTreasure()) {
 						Character c = (Hunter)o;
-						histo += c.getNom()+ " le chasseur ("+c+") a gagné la partie";
+						str += c.getNom()+ " le chasseur ("+c+") a gagné la partie";
 					}
 				}
 			}
 		}
-	}
-	
-	/**
-	 * Play the game
-	 */
-	public void play() {
-		do{
-			for(Occupant o : occupants) {
-				if(o instanceof Hunter || o instanceof Wise || o instanceof Cheater) {
-					Character c = (Character)o;
-					Position pos = c.getPos();
-					Position next = c.getNextPosition(c.getDir());
-					
-					if(( grille.getOccupant(next, grille.getSizeListOccupant(next) - 1) instanceof Stone) && c.getDirTemp() != 0 && (!c.haveAlreadyLadder() || !c.haveAlreadyPickaxe())) {
-						next = c.getNextPosition(c.getDirTemp());
-					}else {
-						c.setDirTemp(0);
-					}
-					
-					Occupant pr = grille.getOccupant(next, grille.getSizeListOccupant(next)-1);
-
-					boolean canWalk = (pr instanceof Tool || pr instanceof Glue || pr instanceof Treasure || pr instanceof RoadMap || pr == null || (pr instanceof Stone && (c.haveAlreadyLadder() || c.haveAlreadyPickaxe()))) ? true : false;
-					
-					if(pr != null) {
-						Occupant act = grille.getOccupant(pos, 0);
-						if(act != null && act instanceof Stone) {
-							if(c.haveUsePickaxe()) {
-								pr.process(c);
-								c.setUsePickaxe(false);
-							}
-						}else {							
-							pr.process(c);
-						}
-					}
-					if(canWalk) {
-						if(c.getRoundWait() == 0 || (c.getRoundWait() == 1 && pr instanceof Glue)) {
-							int i = grille.getSizeListOccupant(pos);
-							grille.removeOccupant(pos, (i-1));
-							c.walk(next);
-							if(c.haveUseLadder()) {
-								if(!(grille.getOccupant(next, grille.getSizeListOccupant(next) - 1) instanceof Stone)) {
-									c.useLadder();
-									c.setUseLadder(false);
-								}
-							}
-							grille.addOccupant(next, o);
-						}else {
-							
-							c.downRoundWait();
-						}
-						
-					}
-					
-				}
-			}
-			System.out.println("\nTour n°"+round+" :\n");
-			afficher();
-			++round;
-		}while(!treasureIsFind() && round <= 1000);
-		
-		if(round >= 1000) {
-			System.out.println("Personne n'a gagné la partie");
-		}else {
-			for(Occupant o : occupants) {
-				if(o instanceof Hunter) {
-					if(((Hunter)(o)).haveTreasure()) {
-						Character c = (Hunter)o;
-						System.out.println(c.getNom()+ " le chasseur ("+c+") a gagné la partie");
-					}
-				}
-			}
-		}
-		
+		histo.add(str);
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -14,10 +15,12 @@ public class Controleur implements ActionListener{
 	
 	private Game game;
 	private Window window;
+	private ArrayList<Integer> stats;
 
 
 	public Controleur(Game game, Window window) {
 		this.game = game;
+		stats = game.getStats();
 		this.window = window;
 		window.addListener(this);
 	}
@@ -174,13 +177,13 @@ public class Controleur implements ActionListener{
 		String command = e.getActionCommand();
 		switch(command) {
 			case "Nouvelle partie":
-				game = new Game();
+				window.cleanHistory();
+				game = new Game(stats);
 				game.initialisation();
 				update(game.getGrille());
 				window.enabledNewGame(false);
 				window.enabledPlayManual(true);
 				window.enabledPlayAuto(true);
-				window.enabledNextRound(true);
 				window.updateHistory("Carte lors de l'initialisation");
 				break;
 			case "Mode manuel":
@@ -196,12 +199,20 @@ public class Controleur implements ActionListener{
 			        while (!game.treasureIsFind() && game.getRound() <= 1000) {
 			            game.playARound();
 			            update(game.getGrille());
-			           window.updateHistory("Tour n°"+(game.getRound()-1));
-			           window.updateHistory(game.getHistory());
+			            window.updateHistory("");
+			            window.updateHistory("Tour n°"+(game.getRound()-1));
+			            window.updateHistory("");
+			           //window.updateHistory(game.getHistory());
+			            for(String str : game.getHistory()) {
+							window.updateHistory(str);
+						}
 			        }
 			        window.enabledNewGame(true);
 			        game.results();
-					window.updateHistory(game.getHistory());
+					//window.updateHistory(game.getHistory())
+			        for(String str : game.getHistory()) {
+						window.updateHistory(str);
+					}
 			    }).start();				
 				break;
 			case "Tour suivant":
@@ -209,11 +220,18 @@ public class Controleur implements ActionListener{
 					window.enabledNextRound(false);
 					window.enabledNewGame(true);
 					game.results();
-					window.updateHistory(game.getHistory());
+					//window.updateHistory(game.getHistory());
+					for(String str : game.getHistory()) {
+						window.updateHistory(str);
+					}
 				}
 				game.playARound();
 				update(game.getGrille());
 				window.updateHistory("Tour n°"+(game.getRound()-1));
+				//window.updateHistory(game.getHistory());
+				for(String str : game.getHistory()) {
+					window.updateHistory(str);
+				}
 			default:
 				break;
 		}

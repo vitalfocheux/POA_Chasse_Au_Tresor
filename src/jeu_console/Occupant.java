@@ -11,6 +11,7 @@ package jeu_console;
 public abstract class Occupant implements Questionnable{
 	
 	private Position pos;
+	private String str = "";
 	
 	/**
 	 * 
@@ -34,6 +35,14 @@ public abstract class Occupant implements Questionnable{
 	 */
 	public void setPos(Position pos) {
 		this.pos = pos;
+	}
+	
+	public void setHistoProcess(String str) {
+		this.str = str;
+	}
+	
+	public String getHistoProcess() {
+		return str;
 	}
 
 }

@@ -83,13 +83,23 @@ public class Wise extends Character {
 	 */
 	@Override
 	public void process(Character c) {
+		String str = this.getNom()+" le mage ("+this+") a redirigé ";
 		if(c instanceof Hunter) {
 			c.setDir(this.getDirToTreasure());
+			str += c.getNom()+" le chasseur ("+c+") dans la direction "+c.getDir()+" vers le trésor";
 		}else {
 			int dir = c.getDir();
 			do {
 				c.setDir( (int)(Math.random() * (7) + 1));
 			}while(c.getDir() == dir);
+			str += c.getNom();
+			if(c instanceof Cheater) {
+				str += " le tricheur ";
+			}else {
+				str += " le sage ";
+			}
+			str += "("+c+") dans la direction aléatoire "+c.getDir();
+			this.setHistoProcess(str);
 		}
 
 	}

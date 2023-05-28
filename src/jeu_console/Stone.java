@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class Stone extends Fixed implements Comparable<Stone>{
 	
 	private Wall wall;
-
+	
 	/**
 	 * 
 	 * @param pos the position of the stone
@@ -40,10 +40,21 @@ public class Stone extends Fixed implements Comparable<Stone>{
 	 */
 	@Override
 	public void process(Character c) {
+		String str = c.getNom();
+		if(c instanceof Hunter) {
+			str += " le chasseur ";
+		}else if(c instanceof Wise) {
+			str += " le mage ";
+		}else if(c instanceof Cheater) {
+			str += " le tricheur ";
+		}
+		str += "("+c+")";
 		if(c.haveAlreadyLadder()) {
+			str += " a utilisé une échelle pour grimper le mur";
 			c.walk(c.getNextPosition(c.getDir()));
 			c.setUseLadder(true);
 		}else if(c.haveAlreadyPickaxe()) {
+			str += " a utilisé une pioche pour casser la pierre";
 			c.walk(c.getNextPosition(c.getDir()));
 			c.usePickaxe();
 			c.setUsePickaxe(true);
@@ -53,49 +64,66 @@ public class Stone extends Fixed implements Comparable<Stone>{
 			if(orientation == 0) {
 				if(stones.getFirst().getPos().equals(this.getPos())) {
 					if(c.getDir() == 1 || c.getDir() == 2) {
+						str += " a été redirigé temporairement dans la direction 3";
 						c.setDirTemp(3);
 					}else if(c.getDir() == 3 || c.getDir() == 4 || c.getDir() == 6 || c.getDir() == 7) {
+						str += " a été redirigé temporairement dans la direction 5";
 						c.setDirTemp(5);
 					}else if(c.getDir() == 8) {
+						str += " a été redirigé temporairement dans la direction 7";
 						c.setDirTemp(7);
 					}
 				}else if(stones.getLast().getPos().equals(this.getPos())) {
 					if(c.getDir() == 2 || c.getDir() == 3 || c.getDir() == 7 || c.getDir() == 8) {
+						str += " a été redirigé temporairement dans la direction 1";
 						c.setDirTemp(1);
 					}else if(c.getDir() == 4 || c.getDir() == 5) {
+						str += " a été redirigé temporairement dans la direction 3";
 						c.setDirTemp(3);
 					}else if(c.getDir() == 6) {
+						str += " a été redirigé temporairement dans la direction 7";
 						c.setDirTemp(7);
 					}
 				}else if(Math.abs(stones.getLast().getPos().getCol() - this.getPos().getCol()) < Math.abs(stones.getFirst().getPos().getCol() - this.getPos().getCol())) {
+					str += " a été redirigé temporairement dans la direction 1";
 					c.setDirTemp(1);
 				}else {
+					str += " a été redirigé temporairement dans la direction 5";
 					c.setDirTemp(5);
 				}
 			}else {
 				if(stones.getFirst().getPos().equals(this.getPos())) {
 					if(c.getDir() == 1 || c.getDir() == 2 || c.getDir() == 4 || c.getDir() == 5) {
+						str += " a été redirigé temporairement dans la direction 3";
 						c.setDirTemp(3);
 					}else if(c.getDir() == 6 || c.getDir() == 7) {
+						str += " a été redirigé temporairement dans la direction 5";
 						c.setDirTemp(5);
 					}else if(c.getDir() == 8) {
+						str += " a été redirigé temporairement dans la direction 1";
 						c.setDirTemp(1);
 					}
 				}else if(stones.getLast().getPos().equals(this.getPos())) {
 					if(c.getDir() == 1 || c.getDir() == 5 || c.getDir() == 6 || c.getDir() == 8) {
+						str += " a été redirigé temporairement dans la direction 7";
 						c.setDirTemp(7);
 					}else if(c.getDir() == 2 || c.getDir() == 3) {
+						str += " a été redirigé temporairement dans la direction 1";
 						c.setDirTemp(1);
 					}else if(c.getDir() == 4) {
+						str += " a été redirigé temporairement dans la direction 5";
 						c.setDirTemp(5);
 					}
 				}else if(Math.abs(stones.getLast().getPos().getRow() - this.getPos().getRow()) < Math.abs(stones.getFirst().getPos().getRow() - this.getPos().getRow())) {
+					str += " a été redirigé temporairement dans la direction 3";
 					c.setDirTemp(3);
 				}else {
+					str += " a été redirigé temporairement dans la direction 7";
 					c.setDirTemp(7);
 				}
 			}
 		}
+		this.setHistoProcess(str);
 	}
 
 	/**

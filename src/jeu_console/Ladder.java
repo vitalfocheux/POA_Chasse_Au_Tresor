@@ -9,8 +9,6 @@ package jeu_console;
  *
  */
 public class Ladder extends Tool {
-
-	private String str = "";
 	
 	/**
 	 * 
@@ -18,14 +16,6 @@ public class Ladder extends Tool {
 	 */
 	public Ladder(Position pos) {
 		super(pos);
-	}
-	
-	public String whoTookLadder() {
-		return str;
-	}
-	
-	private void tookLadder(String str) {
-		this.str = str;
 	}
 	
 	/**
@@ -45,8 +35,7 @@ public class Ladder extends Tool {
 				str += " le tricheur ";
 			}
 			str += "("+c+") a recupéré une échelle";
-			System.out.println(str);
-			tookLadder(str);
+			this.setHistoProcess(str);
 			c.takeLadder();
 		}
 		

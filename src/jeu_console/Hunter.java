@@ -31,10 +31,20 @@ public class Hunter extends Character {
 	 */
 	@Override
 	public void process(Character c) {
+		String str = this.getNom()+" le chasseur ("+this+") a redirigé "+c.getNom();
+		if(c instanceof Hunter) {
+			str += " le chasseur ";
+		}else if(c instanceof Wise) {
+			str += " le mage ";
+		}else if(c instanceof Cheater) {
+			str += " le tricheur ";
+		}
 		int dir = c.getDir();
 		do {
 			c.setDir( (int)(Math.random() * (7) + 1));
 		}while(c.getDir() == dir);
+		str += "("+c+") dans la direction aléatoire "+c.getDir();
+		this.setHistoProcess(str);
 	}
 	
 	/**
@@ -51,5 +61,4 @@ public class Hunter extends Character {
 	public void gotTreasure() {
 		treasure = true;
 	}
-
 }
