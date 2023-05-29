@@ -187,7 +187,7 @@ public abstract class Character extends Occupant implements Moveable{
 	}
 	
 	/**
-	 * Pick up the ladder when he doesn't have one.
+	 * Pick up the pickaxe when he doesn't have one.
 	 */
 	public void takePickaxe() {
 		if(!tools.contains("Pickaxe")) {
@@ -197,7 +197,7 @@ public abstract class Character extends Occupant implements Moveable{
 	
 	/**
 	 * 
-	 * @return whether the character used a ladder or not
+	 * @return whether the character used a pickaxe or not
 	 */
 	public boolean haveUsePickaxe() {
 		return haveUsePickaxe;

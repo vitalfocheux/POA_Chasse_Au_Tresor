@@ -37,10 +37,18 @@ public abstract class Occupant implements Questionnable{
 		this.pos = pos;
 	}
 	
+	/**
+	 * Sets the history process string.
+	 * @param str the new history process string
+	 */
 	public void setHistoProcess(String str) {
 		this.str = str;
 	}
 	
+	/**
+	 * Retrieves the history process string.
+	 * @return the history process string
+	 */
 	public String getHistoProcess() {
 		return str;
 	}

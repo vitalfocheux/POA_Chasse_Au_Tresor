@@ -31,7 +31,15 @@ public class Game {
 	
 
 	/**
-	 * 
+	 * Creates a new instance of the Game class with the specified quantities of different occupants and items.
+	 * @param qte_hunter The quantity of Hunter occupants.
+	 * @param qte_wise The quantity of Wise occupants.
+	 * @param qte_cheater The quantity of Cheater occupants.
+	 * @param qte_roadmap The quantity of RoadMap items.
+	 * @param qte_pickaxe The quantity of Pickaxe items.
+	 * @param qte_ladder The quantity of Ladder items.
+	 * @param qte_wall The quantity of Wall items.
+	 * @param qte_glue The quantity of Glue items.
 	 */
 	public Game(int qte_hunter, int qte_wise, int qte_cheater, int qte_roadmap, int qte_pickaxe, int qte_ladder, int qte_wall,  int qte_glue) {
 		round = 1;
@@ -50,14 +58,26 @@ public class Game {
 		histo = new ArrayList<String>();
 	}
 	
+	/**
+	 * Creates a new instance of the Game class.
+	 * Initializes the game with default parameters.
+	 */
 	public Game() {
 		this(5,5,5,1,1,1,5,1);
 	}
 	
+	/**
+	 * Constructs a new instance of the Game class with the provided stats.
+	 * @param stats an ArrayList of integers containing the game statistics.
+	 */
 	public Game(ArrayList<Integer> stats) {
 		this(stats.get(0),stats.get(1),stats.get(2),stats.get(3),stats.get(4),stats.get(5),stats.get(6),stats.get(7));
 	}
 	
+	/**
+	 * Retrieves the statistics of the game.
+	 * @return An ArrayList of Integers containing the statistics.
+	 */
 	public ArrayList<Integer> getStats(){
 		ArrayList<Integer> stats = new ArrayList<Integer>();
 		stats.add(qte_hunter);
@@ -86,10 +106,18 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Retrieves the list of occupants.
+	 * @return The list of occupants.
+	 */
 	public List<Occupant> getOccupants(){
 		return occupants;
 	}
 	
+	/**
+	 * Returns the grid associated with this object.
+	 * @return The grid object.
+	 */
 	public Grille getGrille(){
 		return grille;
 	}
@@ -323,14 +351,28 @@ public class Game {
 		return false;
 	}
 	
+	/**
+	 * Retrieves the value of the "round" variable.
+	 * @return The current value of the "round" variable.
+	 */
 	public int getRound() {
 		return round;
 	}
 	
+	/**
+	 * Returns the history of strings stored in an ArrayList.
+	 * @return the ArrayList of strings representing the history
+	 */
 	public ArrayList<String> getHistory() {
 		return histo;
 	}
 	
+	/**
+	 * Plays a round of the game.
+	 * This method iterates over the occupants and performs their actions based on their type.
+	 * The actions include moving, interacting with other occupants, and updating the game grid.
+	 * The history of the round's actions is recorded in the "histo" ArrayList.
+	 */
 	public void playARound() {
 		histo = new ArrayList<String>();
 		for(Occupant o : occupants) {
@@ -389,6 +431,12 @@ public class Game {
 		
 	}
 	
+	/**
+	 * Generates the results of the game.
+	 * The method populates the 'histo' ArrayList with the game results.
+	 * It checks if any player has won the game, and appends the corresponding message to the 'histo' list.
+	 * If no player has won after 1000 rounds, it adds a message indicating that no one has won.
+	 */
 	public void results() {
 		histo = new ArrayList<String>();
 		String str = "Fin du jeu : \n";

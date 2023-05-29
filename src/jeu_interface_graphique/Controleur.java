@@ -1,3 +1,7 @@
+/**
+ * The Controleur class represents the controller in a graphical interface game.
+ * It implements the ActionListener interface to handle user actions.
+ */
 package jeu_interface_graphique;
 
 import java.awt.event.*;
@@ -11,6 +15,11 @@ import javax.swing.ImageIcon;
 
 import jeu_console.*;
 
+/**
+ * The Controleur class represents the controller for a graphical interface game.
+ * It implements the ActionListener interface to handle UI events.
+ * @author Vital FOCHEUX
+ */
 public class Controleur implements ActionListener{
 	
 	private Game game;
@@ -18,6 +27,11 @@ public class Controleur implements ActionListener{
 	private ArrayList<Integer> stats;
 
 
+	/**
+	 * Constructs a `Controleur` object with the specified `Game` and `Window`.
+	 * @param game the game instance to control
+	 * @param window the graphical window instance
+	 */
 	public Controleur(Game game, Window window) {
 		this.game = game;
 		stats = game.getStats();
@@ -25,6 +39,10 @@ public class Controleur implements ActionListener{
 		window.addListener(this);
 	}
 	
+	/**
+	 * Updates the graphical representation of the game grid based on the provided `Grille`.
+	 * @param grille the grid to update the graphical representation for
+	 */
 	private void update(Grille grille) {
 		for(int i = 1; i < 15; ++i) {
 			for(int j = 1; j < 30; ++j) {
@@ -171,6 +189,10 @@ public class Controleur implements ActionListener{
 		}
 	}
 
+	/**
+	 * ActionListener implementation. Handles the events triggered by the UI.
+	 * @param e The action event triggered
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -202,14 +224,12 @@ public class Controleur implements ActionListener{
 			            window.updateHistory("");
 			            window.updateHistory("Tour n°"+(game.getRound()-1));
 			            window.updateHistory("");
-			           //window.updateHistory(game.getHistory());
 			            for(String str : game.getHistory()) {
 							window.updateHistory(str);
 						}
 			        }
 			        window.enabledNewGame(true);
 			        game.results();
-					//window.updateHistory(game.getHistory())
 			        for(String str : game.getHistory()) {
 						window.updateHistory(str);
 					}
@@ -220,15 +240,15 @@ public class Controleur implements ActionListener{
 					window.enabledNextRound(false);
 					window.enabledNewGame(true);
 					game.results();
-					//window.updateHistory(game.getHistory());
 					for(String str : game.getHistory()) {
 						window.updateHistory(str);
 					}
 				}
 				game.playARound();
 				update(game.getGrille());
+				window.updateHistory("");
 				window.updateHistory("Tour n°"+(game.getRound()-1));
-				//window.updateHistory(game.getHistory());
+				window.updateHistory("");
 				for(String str : game.getHistory()) {
 					window.updateHistory(str);
 				}
